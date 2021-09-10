@@ -1,0 +1,76 @@
+<div class="card">
+    <h3 class="card-header">Registration</h3>
+    <div class="card-body">
+        <form name="form" #registerForm=ngForm (ngSubmit)="registerForm.form.valid && onSubmit(registerForm)" [mustMatch]="['password', 'confirmPassword']" novalidate>
+            <div class="form-group">
+                <label for="userName">UserName</label>
+                <input class="form-control" type="text" id="userName" name="userName" placeholder="UserName" [(ngModel)]="model.UserName" #userName="ngModel" 
+                [ngClass]="{ 'is-invalid': registerForm.submitted && userName.invalid }" required maxlength="50"/>
+                <div *ngIf="registerForm.submitted && userName.invalid" class="invalid-feedback">
+                    <div *ngIf="userName.errors.required">UserName is required</div>
+                    <div *ngIf="userName.errors.maxlength">UserName must be no more than 50 characters</div>
+                </div>
+            </div>  
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input class="form-control" type="email" id="email" name="email" placeholder="Email" [(ngModel)]="model.Email" #email="ngModel"
+                [ngClass]="{ 'is-invalid': registerForm.submitted && email.invalid }" required email/>
+                <div *ngIf="registerForm.submitted && email.invalid" class="invalid-feedback">
+                    <div *ngIf="email.errors.required">Email is required</div>
+                    <div *ngIf="email.errors.email">Email must be a valid email address</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="gender">Gender</label>
+                <select class="form-control" name="gender" id="gender" [(ngModel)]="model.Gender" #gender="ngModel"
+                [ngClass]="{ 'is-invalid': registerForm.submitted && gender.invalid }" required>
+                    <option *ngFor="let gen of genders" [value]="gen">
+                        {{gen}}
+                    </option> 
+                </select>
+                <div *ngIf="registerForm.submitted && gender.invalid" class="invalid-feedback">
+                    <div *ngIf="gender.errors.required">Gender is required</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="firstName">FirstName</label>
+                <input class="form-control" type="text" id="firstName" name="firstName" placeholder="FirstName"  [(ngModel)]="model.FirstName" #firstName="ngModel"
+                [ngClass]="{ 'is-invalid': registerForm.submitted && firstName.invalid }" required maxlength="50"/>
+                <div *ngIf="registerForm.submitted && firstName.invalid" class="invalid-feedback">
+                    <div *ngIf="firstName.errors.required">FirstName is required</div>
+                    <div *ngIf="firstName.errors.maxlength">FirstName must be no more than 50 characters</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="lastName">LastName</label>
+                <input class="form-control" type="text" id="lastName" name="lastName" placeholder="LastName" [(ngModel)]="model.LastName"  #lastName="ngModel"
+                [ngClass]="{ 'is-invalid': registerForm.submitted && lastName.invalid }" required maxlength="50"/>
+                <div *ngIf="registerForm.submitted && lastName.invalid" class="invalid-feedback">
+                    <div *ngIf="lastName.errors.required">LastName is required</div>
+                    <div *ngIf="lastName.errors.maxlength">LastName must be no more than 50 characters</div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input class="form-control" type="password" id="password" name="password" placeholder="Password" [(ngModel)]="model.Password"
+                #password="ngModel" [ngClass]="{ 'is-invalid': registerForm.submitted && password.invalid }" required minlength="6"/>
+                <div *ngIf="registerForm.submitted && password.invalid" class="invalid-feedback">
+                    <div *ngIf="password.errors.required">Password is required</div>
+                    <div *ngIf="password.errors.minlength">Password must be at least 6 characters</div>
+                </div>
+                <strenth-password [passwordToCheck]="password.value"></strenth-password>
+            </div>
+            <div class="form-group">
+                <label for="confirmPassword">ConfirmPassword</label>
+                <input class="form-control" type="password" id="confirmPassword" name="confirmPassword"  placeholder="ConfirmPassword" [(ngModel)]="model.ConfirmPassword" #confirmPassword="ngModel"
+                [ngClass]="{ 'is-invalid': registerForm.submitted && confirmPassword.invalid }" required/>
+                <div *ngIf="registerForm.submitted && confirmPassword.invalid" class="invalid-feedback">
+                    <div *ngIf="confirmPassword.errors.required">Confirm Password is required</div>
+                    <div *ngIf="confirmPassword.errors.mustMatch">Passwords must match</div>
+                </div>
+            </div>
+            <button class="btn btn-primary">Register</button>
+            <button class="btn btn-primary" (click)="reset(registerForm)">reset</button>
+         </form>
+    </div>
+</div>

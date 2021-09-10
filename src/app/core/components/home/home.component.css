@@ -1,0 +1,11 @@
+.container {
+    background-image: url('/assets/img/ang.jpg') !important;
+    background-size: cover;
+    background-position: center center;
+    height: 800px;
+  }
+  .title{
+      color: black;
+      padding-left: 40%;
+      padding-top: 100px;
+  }

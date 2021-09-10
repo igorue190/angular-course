@@ -1,0 +1,30 @@
+.nav {
+    background: #1976d2;
+    padding: 2px 15px;
+}
+.logo {
+  max-height: 55px;
+}
+a{
+  color: antiquewhite;
+}
+.main-nav{
+ display: flex;
+}
+.main-nav li{
+  padding-right: 30px;
+  padding-top: 15px;
+ }
+.courses {
+    max-width: 400px;
+    margin: 50px auto;
+}
+h4{
+  padding-top: 10px;
+}
+.active a{
+  color: black;
+}
+
+
+

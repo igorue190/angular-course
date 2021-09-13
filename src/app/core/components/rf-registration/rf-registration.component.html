@@ -1,17 +1,17 @@
 <div class="card">
     <h3 class="card-header">Registration</h3>
     <div class="card-body">
-        <form [formGroup]="registerForm" (ngSubmit)="submit()">
+        <form [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
             <div class="form-group">
                 <label>UserName</label>
                 <input class="form-control" type="text" placeholder="UserName" formControlName="userName" />
                 <div 
-                    *ngIf="registerForm.get('userName').invalid && registerForm.get('userName').touched" 
+                    *ngIf="registerForm.controls['userName'].invalid && registerForm.controls['userName'].touched" 
                     class="alert alert-danger">
-                    <small *ngIf="registerForm.get('userName').errors.required">
+                    <small *ngIf="registerForm.controls['userName'].errors.required">
                         UserName field cannot be empty
                     </small>
-                    <small *ngIf="registerForm.get('userName').errors.minlength">
+                    <small *ngIf="registerForm.controls['userName'].errors.minlength">
                         The length must be between 4 and 10
                     </small>
                 </div>
@@ -20,12 +20,12 @@
                 <label>Email</label>
                 <input class="form-control" type="email" placeholder="Email" formControlName="email"/>
                 <div 
-                    *ngIf="registerForm.get('email').invalid && registerForm.get('email').touched" 
+                    *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched" 
                     class="alert alert-danger">
-                    <small *ngIf="registerForm.get('email').errors.required">
+                    <small *ngIf="registerForm.controls['email'].errors.required">
                         Email field cannot be empty
                     </small>
-                    <small *ngIf="registerForm.get('email').errors.email">
+                    <small *ngIf="registerForm.controls['email'].errors.email">
                         Enter correct email
                     </small>
                 </div>
@@ -41,12 +41,12 @@
                 <label>FirstName</label>
                 <input class="form-control" type="text" placeholder="FirstName" formControlName="firstName"/>
                 <div 
-                    *ngIf="registerForm.get('firstName').invalid && registerForm.get('firstName').touched" 
+                    *ngIf="registerForm.controls['firstName'].invalid && registerForm.controls['firstName'].touched" 
                     class="alert alert-danger">
-                    <small *ngIf="registerForm.get('firstName').errors.required">
+                    <small *ngIf="registerForm.controls['firstName'].errors.required">
                         FirstName field cannot be empty
                     </small>
-                    <small *ngIf="registerForm.get('firstName').errors.minlength">
+                    <small *ngIf="registerForm.controls['firstName'].errors.minlength">
                         The length must be between 2 and 20
                     </small>
                 </div>
@@ -55,44 +55,48 @@
                 <label>LastName</label>
                 <input class="form-control" type="text" placeholder="LastName" formControlName="lastName"/>
                 <div 
-                    *ngIf="registerForm.get('lastName').invalid && registerForm.get('lastName').touched" 
+                    *ngIf="registerForm.controls['lastName'].invalid && registerForm.controls['lastName'].touched" 
                     class="alert alert-danger">
-                    <small *ngIf="registerForm.get('lastName').errors.required">
+                    <small *ngIf="registerForm.controls['lastName'].errors.required">
                         LastName field cannot be empty
                     </small>
-                    <small *ngIf="registerForm.get('lastName').errors.minlength">
+                    <small *ngIf="registerForm.controls['lastName'].errors.minlength">
                         The length must be between 2 and 20
                     </small>
                 </div>                
             </div>
+            <div formGroupName="passwordGroup">
             <div class="form-group">
                 <label>Password</label>
                 <input class="form-control" type="password" placeholder="Password" formControlName="password" autocomplete="off"/>
-                <div 
-                    *ngIf="registerForm.get('password').invalid && registerForm.get('password').touched" 
+                 <div 
+                    *ngIf="registerForm.controls['passwordGroup'].get('password').invalid 
+                    && registerForm.controls['passwordGroup'].get('password').touched" 
                     class="alert alert-danger">
-                    <small *ngIf="registerForm.get('password').errors.required">
+                    <small *ngIf="registerForm.controls['passwordGroup'].get('password').errors.required">
                         Password field cannot be empty
                     </small>
-                    <small *ngIf="registerForm.get('password').errors.minlength">
+                    <small *ngIf="registerForm.controls['passwordGroup'].get('password').errors.minlength">
                         The length must be between 6 and 10
                     </small>
-                </div>
-                <strenth-password [passwordToCheck]="registerForm.get('password').value"
+                </div>                
+                <strenth-password [passwordToCheck]="registerForm.controls['passwordGroup'].get('password').value"
                             (passwordStrength)="passwordValid($event)"></strenth-password>
             </div>
             <div class="form-group">
                 <label>ConfirmPassword</label>
                 <input class="form-control" type="password" placeholder="ConfirmPassword" formControlName="confirmPassword" autocomplete="off"/>
                 <div 
-                *ngIf="registerForm.get('confirmPassword').invalid && registerForm.get('confirmPassword').touched" 
+                *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').invalid
+                 && registerForm.controls['passwordGroup'].get('confirmPassword').touched" 
                 class="alert alert-danger">
-                <small *ngIf="registerForm.get('confirmPassword').errors.mustMatch">
+                <small *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').errors.mustMatch">
                     ConfirmPassword is required 
                 </small>
-                <small *ngIf="registerForm.get('confirmPassword').errors.required">
+                <small *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').errors.required">
                     Confirmpassword field cannot be empty
                 </small>
+            </div>
             </div>
             </div>
             <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid">Register</button>

@@ -13,8 +13,8 @@ import { RegistrationServiceService } from '../../services/registration-service.
 })
 export class TdRegistrationComponent implements OnInit {
 
-  genders = [Genders[0].Name, Genders[1].Name, Genders[2].Name];
-  model = new RegisterUser('','', this.genders[0],'','','','');
+  genders = [Genders[0], Genders[1], Genders[2]];
+  model = new RegisterUser('','', this.genders[0],'','','');
   user: User;
   users: User[];
   
@@ -27,16 +27,17 @@ export class TdRegistrationComponent implements OnInit {
   onSubmit(form: NgForm){
     console.log(JSON.stringify(this.model));
 
-    this.user = new User( UUID.UUID(),
-        this.model.UserName, 
-        this.model.Email, 
-        Genders.find(g => g.Name === this.model.Gender),
-        this.model.FirstName,
-        this.model.LastName,
-        this.model.Password);
-        this.registrationService.addUser(this.user);
+    this.user = {Id: UUID.UUID(),
+        UserName: this.model.UserName, 
+        Email: this.model.Email, 
+        Gender: this.model.Gender,
+        FirstName: this.model.FirstName,
+        LastName: this.model.LastName,
+        Password: this.model.Password};
+
+    this.registrationService.addUser(this.user);
     form.resetForm(); 
-    this.model = new RegisterUser('','', this.genders[0],'','','','');  
+    this.model = new RegisterUser('','', this.genders[0],'','','');  
     this.getUsers();  
   }
 
@@ -46,7 +47,7 @@ export class TdRegistrationComponent implements OnInit {
   }
 
   reset(form: NgForm){
-    form.resetForm(); 
-    //this.model = new RegisterUser('','', this.genders[0],'','','',''); 
+    //form.resetForm(); 
+    this.model = new RegisterUser('','', this.genders[0],'','',''); 
   }
 }

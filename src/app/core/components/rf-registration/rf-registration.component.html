@@ -1,5 +1,5 @@
 <div class="card">
-    <h3 class="card-header">Registration</h3>
+    <h3 class="card-header">Registration:</h3>
     <div class="card-body">
         <form [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
             <div class="form-group">
@@ -65,7 +65,7 @@
                     </small>
                 </div>                
             </div>
-            <div formGroupName="passwordGroup">
+        <div formGroupName="passwordGroup">
             <div class="form-group">
                 <label>Password</label>
                 <input class="form-control" type="password" placeholder="Password" formControlName="password" autocomplete="off"/>
@@ -87,20 +87,24 @@
                 <label>ConfirmPassword</label>
                 <input class="form-control" type="password" placeholder="ConfirmPassword" formControlName="confirmPassword" autocomplete="off"/>
                 <div 
-                *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').invalid
-                 && registerForm.controls['passwordGroup'].get('confirmPassword').touched" 
-                class="alert alert-danger">
-                <small *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').errors.mustMatch">
-                    ConfirmPassword is required 
-                </small>
-                <small *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').errors.required">
-                    Confirmpassword field cannot be empty
-                </small>
+                    *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').invalid
+                    && registerForm.controls['passwordGroup'].get('confirmPassword').touched" 
+                    class="alert alert-danger">
+                    <small *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').errors.mustMatch">
+                        ConfirmPassword is required 
+                    </small>
+                    <small *ngIf="registerForm.controls['passwordGroup'].get('confirmPassword').errors.required">
+                        Confirmpassword field cannot be empty
+                    </small>
+                </div>
             </div>
-            </div>
-            </div>
+        </div>
+        <div class="rout-container" >
             <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid">Register</button>
-            <button class="btn btn-primary" type="button" (click)="getUsers()">Get Users</button>
+            <p class="log-link" routerLinkActive="active">
+                <a [routerLink]="['/login']" >Login</a>
+            </p>
+        </div>
         </form>
     </div>
 </div>

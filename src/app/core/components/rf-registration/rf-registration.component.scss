@@ -7,14 +7,12 @@ input {
         border: 1px solid green;
     }
 }
-
 .card{
     width: 700px;
     margin-left: 30%;
     margin-top: 50px;
     padding: 10px;
 }
-
 .strengthBar {
     display: inline;
     list-style: none;
@@ -22,11 +20,10 @@ input {
     padding: 0;
     vertical-align: 2px;
   }
-  
+ 
   .point:last-of-type {
     margin: 0 !important;
   }
-  
   .point {
     background: #DDD;
     border-radius: 2px;
@@ -35,39 +32,23 @@ input {
     margin-right: 1px;
     width: 62px;
   }
-  
-  p {
-    font-weight: bold;
-    font-size: 20px;
-  }
-
+  // p {
+  //   font-weight: bold;
+  //   font-size: 20px;
+  // }
   .strengthBar {
     display: inline;
     list-style: none;
     margin: 0;
     padding: 0;
     vertical-align: 2px;
-  }
-  
+  } 
   .point:last-of-type {
     margin: 0 !important;
-  }
-  
-  .point {
-    background: #DDD;
-    border-radius: 2px;
-    display: inline-block;
-    height: 5px;
-    margin-right: 1px;
-    width: 62px;
-  }
-  
-  p {
-    font-weight: bold;
-    font-size: 20px;
-  }
-
-  .strength{
-      margin: auto;
-      width: 40%;
-  }
+  } 
+.rout-container{
+  display:flex;
+}
+.log-link{
+  padding: 10px 0 0 10px;
+}

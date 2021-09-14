@@ -25,6 +25,19 @@ h4{
 .active a{
   color: black;
 }
+input {
+  &.ng-invalid.ng-touched{
+      border: 1px solid red;
+  }
 
-
+  &.ng-valid.ng-touched{
+      border: 1px solid green;
+  }
+}
+.card{
+  width: 700px;
+  margin-left: 30%;
+  margin-top: 50px;
+  padding: 10px;
+}
 

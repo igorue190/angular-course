@@ -9,7 +9,7 @@ export function MustMatch(controlName: string, matchingControlName: string){
             return null;
         }
         
-        if(matchingControl.errors && !matchingControl.errors.mustMatch){
+        if(matchingControl.errors){
             return null;
         }
 

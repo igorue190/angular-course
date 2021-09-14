@@ -12,6 +12,9 @@ import { StrenthPasswordComponent } from './shared/strenth-password/strenth-pass
 import { TdRegistrationComponent } from './core/components/td-registration/td-registration.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { MustMatchDirective } from './shared/directives/must-match.directive';
+import { LoginComponent } from './core/components/login/login.component';
+import { LayoutModule } from './shared/common/layout/layout.module';
+import { AuthGuardGuard } from './app-routing/auth-guard.guard';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,8 @@ import { MustMatchDirective } from './shared/directives/must-match.directive';
     StrenthPasswordComponent,
     TdRegistrationComponent,
     HomeComponent,
-    MustMatchDirective
+    MustMatchDirective,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -28,9 +32,10 @@ import { MustMatchDirective } from './shared/directives/must-match.directive';
     FormsModule,
     ReactiveFormsModule,
     NgbModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LayoutModule
   ],
-  providers: [],
+  providers: [AuthGuardGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -32,10 +32,6 @@ input {
     margin-right: 1px;
     width: 62px;
   }
-  // p {
-  //   font-weight: bold;
-  //   font-size: 20px;
-  // }
   .strengthBar {
     display: inline;
     list-style: none;
@@ -51,4 +47,10 @@ input {
 }
 .log-link{
   padding: 10px 0 0 10px;
+}
+.card-child{
+  border: 1px solid rgba(0,0,0,.125);
+  border-radius: .25rem;
+  margin: 20px 0 10px 0;
+  padding: 10px;
 }

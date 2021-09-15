@@ -8,5 +8,8 @@ export class RegisterUser{
     public Gender: string,
     public FirstName: string,
     public LastName: string,
-    public Password: string,){}
+    public Password: string,
+    public Country?: string,
+    public City?: string,
+    public ZipCode?: string){}
 }

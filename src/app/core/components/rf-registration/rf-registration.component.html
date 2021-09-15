@@ -1,7 +1,7 @@
 <div class="card">
     <h3 class="card-header">Registration:</h3>
     <div class="card-body">
-        <form [formGroup]="registerForm" (ngSubmit)="submit()" novalidate>
+        <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && submit()" novalidate>
             <div class="form-group">
                 <label>UserName</label>
                 <input class="form-control" type="text" placeholder="UserName" formControlName="userName" />
@@ -33,7 +33,7 @@
             <div class="form-group">
                 <label>Gender</label>
                 <select class="form-control" formControlName="gender">
-                    <option *ngFor="let item of genders" value={{item}}>{{item}}</option>
+                    <option *ngFor="let item of genders" [ngValue]=item>{{item}}</option>
                 </select>
 
             </div>
@@ -99,8 +99,46 @@
                 </div>
             </div>
         </div>
+        <div class="card-child">
+            <h4 class="card-header">Address:</h4>
+        <div class="card-body">
+        <ng-container formArrayName="address">
+            <div *ngFor="let _ of address.controls; index as i">
+                <ng-container [formGroupName]="i">
+                    <div class="form-group">
+                        <label>Country</label>
+                        <select  class="form-control" formControlName="country" (change)="onChangeCountry($event.target.value)">
+                            <option *ngFor="let item of countries" value={{item.country}}>{{item.country}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <select  class="form-control" formControlName="city">
+                            <option *ngFor="let item of states" value={{item}}>{{item}}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>ZipCode</label>
+                        <input class="form-control" type="text" placeholder="ZipCode" formControlName="zipcode" />  
+                        <div 
+                            *ngIf="registerForm.get('address').controls[0].get('zipcode').invalid
+                             && registerForm.get('address').controls[0].get('zipcode').touched" 
+                            class="alert alert-danger">
+                             <small *ngIf="registerForm.get('address').controls[0].get('zipcode').errors.pattern">
+                                ZipCode is required 
+                            </small>
+                            <small *ngIf="registerForm.get('address').controls[0].get('zipcode').errors.required">
+                                ZipCode field cannot be empty
+                            </small> 
+                         </div>   
+                    </div>    
+                </ng-container>
+            </div>
+        </ng-container>
+        </div>
+    </div>
         <div class="rout-container" >
-            <button class="btn btn-primary" type="submit" [disabled]="registerForm.invalid">Register</button>
+            <button class="btn btn-primary" type="submit">Register</button>
             <p class="log-link" routerLinkActive="active">
                 <a [routerLink]="['/login']" >Login</a>
             </p>

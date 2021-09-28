@@ -4,30 +4,18 @@
         <form [formGroup]="registerForm" (ngSubmit)="registerForm.valid && submit()" novalidate>
             <div class="form-group">
                 <label>UserName</label>
-                <input class="form-control" type="text" placeholder="UserName" formControlName="userName" />
-                <div 
-                    *ngIf="registerForm.controls['userName'].invalid && registerForm.controls['userName'].touched" 
-                    class="alert alert-danger">
-                    <small *ngIf="registerForm.controls['userName'].errors.required">
-                        UserName field cannot be empty
-                    </small>
-                    <small *ngIf="registerForm.controls['userName'].errors.minlength">
-                        The length must be between 4 and 10
-                    </small>
+                <input class="form-control" type="text" placeholder="UserName" formControlName="userName" 
+                [class.is-invalid]="userNameError$ | async"/>
+                <div class="invalid-feedback position-absolute">
+                    <span [textContent]="userNameError$ | async"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label>Email</label>
-                <input class="form-control" type="email" placeholder="Email" formControlName="email"/>
-                <div 
-                    *ngIf="registerForm.controls['email'].invalid && registerForm.controls['email'].touched" 
-                    class="alert alert-danger">
-                    <small *ngIf="registerForm.controls['email'].errors.required">
-                        Email field cannot be empty
-                    </small>
-                    <small *ngIf="registerForm.controls['email'].errors.email">
-                        Enter correct email
-                    </small>
+                <input class="form-control" type="email" placeholder="Email" formControlName="email"
+                [class.is-invalid]="emailError$ | async"/>
+                <div class="invalid-feedback position-absolute">
+                    <span [textContent]="emailError$ | async"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -39,47 +27,28 @@
             </div>
             <div class="form-group">
                 <label>FirstName</label>
-                <input class="form-control" type="text" placeholder="FirstName" formControlName="firstName"/>
-                <div 
-                    *ngIf="registerForm.controls['firstName'].invalid && registerForm.controls['firstName'].touched" 
-                    class="alert alert-danger">
-                    <small *ngIf="registerForm.controls['firstName'].errors.required">
-                        FirstName field cannot be empty
-                    </small>
-                    <small *ngIf="registerForm.controls['firstName'].errors.minlength">
-                        The length must be between 2 and 20
-                    </small>
+                <input class="form-control" type="text" placeholder="FirstName" formControlName="firstName"
+                [class.is-invalid]="firstNameError$ | async"/>
+                <div class="invalid-feedback position-absolute">
+                    <span [textContent]="firstNameError$ | async"></span>
                 </div>
             </div>
             <div class="form-group">
                 <label>LastName</label>
-                <input class="form-control" type="text" placeholder="LastName" formControlName="lastName"/>
-                <div 
-                    *ngIf="registerForm.controls['lastName'].invalid && registerForm.controls['lastName'].touched" 
-                    class="alert alert-danger">
-                    <small *ngIf="registerForm.controls['lastName'].errors.required">
-                        LastName field cannot be empty
-                    </small>
-                    <small *ngIf="registerForm.controls['lastName'].errors.minlength">
-                        The length must be between 2 and 20
-                    </small>
-                </div>                
+                <input class="form-control" type="text" placeholder="LastName" formControlName="lastName"
+                [class.is-invalid]="lastNameError$ | async"/>
+                <div class="invalid-feedback position-absolute">
+                    <span [textContent]="lastNameError$ | async"></span>
+                </div>               
             </div>
         <div formGroupName="passwordGroup">
             <div class="form-group">
                 <label>Password</label>
-                <input class="form-control" type="password" placeholder="Password" formControlName="password" autocomplete="off"/>
-                 <div 
-                    *ngIf="registerForm.controls['passwordGroup'].get('password').invalid 
-                    && registerForm.controls['passwordGroup'].get('password').touched" 
-                    class="alert alert-danger">
-                    <small *ngIf="registerForm.controls['passwordGroup'].get('password').errors.required">
-                        Password field cannot be empty
-                    </small>
-                    <small *ngIf="registerForm.controls['passwordGroup'].get('password').errors.minlength">
-                        The length must be between 6 and 10
-                    </small>
-                </div>                
+                <input class="form-control" type="password" placeholder="Password" formControlName="password" autocomplete="off"
+                [class.is-invalid]="passwordError$ | async"/>
+                <div class="invalid-feedback position-absolute">
+                    <span [textContent]="passwordError$ | async"></span>
+                </div>               
                 <strenth-password [passwordToCheck]="registerForm.controls['passwordGroup'].get('password').value"
                             (passwordStrength)="passwordValid($event)"></strenth-password>
             </div>
@@ -105,6 +74,12 @@
         <ng-container formArrayName="address">
             <div *ngFor="let _ of address.controls; index as i">
                 <ng-container [formGroupName]="i">
+                    <h4 *ngIf="i==0">
+                        Add billing address
+                    </h4>
+                    <h4 *ngIf="i==1">
+                        Add shipping address
+                    </h4>
                     <div class="form-group">
                         <label>Country</label>
                         <select  class="form-control" formControlName="country" (change)="onChangeCountry($event.target.value)">
@@ -119,21 +94,22 @@
                     </div>
                     <div class="form-group">
                         <label>ZipCode</label>
-                        <input class="form-control" type="text" placeholder="ZipCode" formControlName="zipcode" />  
-                        <div 
-                            *ngIf="registerForm.get('address').controls[0].get('zipcode').invalid
-                             && registerForm.get('address').controls[0].get('zipcode').touched" 
-                            class="alert alert-danger">
-                             <small *ngIf="registerForm.get('address').controls[0].get('zipcode').errors.pattern">
-                                ZipCode is required 
-                            </small>
-                            <small *ngIf="registerForm.get('address').controls[0].get('zipcode').errors.required">
-                                ZipCode field cannot be empty
-                            </small> 
-                         </div>   
+                        <input class="form-control" type="text" placeholder="ZipCode" formControlName="zipcode"  
+                        [class.is-invalid]="zipcodeError$ | async"/>  
+                        <div class="invalid-feedback position-absolute">
+                            <span [textContent]="zipcodeError$ | async"></span>
+                        </div>  
                     </div>    
                 </ng-container>
             </div>
+            <p *ngIf="clicked==false">
+                <button class="btn btn-primary" type="button" [disabled]="clicked" (click)='addAddress(); clicked=true;'>
+                    Add shipping address</button> or ship to main address
+            </p>
+            <p *ngIf="clicked">
+                <button class="btn btn-primary" type="button" (click)='hideShippingAddress(); clicked=false;'>
+                    Hide shipping address</button>
+            </p>
         </ng-container>
         </div>
     </div>
@@ -148,3 +124,4 @@
 </div>
   <small >  
 </small> 
+<!-- [disabled]="registerForm.invalid" -->

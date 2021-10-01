@@ -15,17 +15,19 @@ import { FormGroupName, FormUserData, Genders } from 'src/app/model/mock-users';
   styleUrls: ['./rf-registration.component.scss']
 })
 export class RfRegistrationComponent implements OnInit {
-
+  
   registerForm: FormGroup;
-  genders = Genders;
-  countries: object[] = countryList;
-  passwordIsValid = false;
-  users: User[] = [];
-  user: User;
-  states: string[] = countryList[0]['states'];
-  clicked = false;
   formUserData = FormUserData;
   formGroupName = FormGroupName;
+
+  genders = Genders;
+  countries: object[] = countryList;  
+  users: User[] = [];
+  states: string[] = countryList[0]['states'];
+
+  user: User;
+  clicked = false;
+  passwordIsValid = false;
 
   userNameError$: Observable<string>;
   emailError$: Observable<string>;
@@ -47,6 +49,9 @@ export class RfRegistrationComponent implements OnInit {
   get lastNameControl() : FormControl{
     return this.registerForm.get(this.formUserData.lastName) as FormControl;
   }
+  get genderListControl() : FormControl{
+    return this.registerForm.get(this.formUserData.gender) as FormControl;
+  }
   get passwordControl() : FormControl{
     return this.registerForm.get(this.formGroupName.passwordGroup).get(this.formUserData.password) as FormControl;
   }
@@ -58,6 +63,12 @@ export class RfRegistrationComponent implements OnInit {
   }
   get zipcodeControl() : FormControl{
     return this.addressFromArray.controls[0].get(this.formUserData.zipCode) as FormControl;
+  }
+  get countryListControl() : FormControl{
+    return this.addressFromArray.controls[0].get(this.formUserData.country) as FormControl;
+  }
+  get cityListControl() : FormControl{
+    return this.addressFromArray.controls[0].get(this.formUserData.city) as FormControl;
   }
 
   constructor(private registrationService: RegistrationServiceService,
@@ -134,7 +145,14 @@ export class RfRegistrationComponent implements OnInit {
     }
 
     this.registerForm.reset();  
+    this.setListDataAfterResetForm();
     this.getUsers();
+  }
+
+  private setListDataAfterResetForm(){
+    this.genderListControl.setValue(this.genders[0]);
+    this.countryListControl.setValue(this.countries[0][this.formUserData.country]);
+    this.cityListControl.setValue(this.states[0]);
   }
 
   getUsers(){

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { UUID } from 'angular2-uuid';
-import { Genders } from 'src/app/model/mock-gender';
+import { Genders } from 'src/app/model/mock-users';
 import { RegisterUser } from 'src/app/model/RegisterUser';
 import { User } from 'src/app/model/User';
 import { RegistrationServiceService } from '../../services/registration-service.service';

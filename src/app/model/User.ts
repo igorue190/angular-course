@@ -9,5 +9,8 @@ export class User{
     public Password: string,
     public Country?: string,
     public City?: string,
-    public ZipCode?: string ){}
+    public ZipCode?: string,
+    public ShipingCountry?: string,
+    public ShipingCity?: string,
+    public ShipingZipCode?: string ){}
 }

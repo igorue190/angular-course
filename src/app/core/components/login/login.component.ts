@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { AsyncValidatorFn, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, timer } from 'rxjs';
 import { AuthGuardService } from 'src/app/app-routing/auth-guard.service';
+import { FormUserData } from 'src/app/model/mock-users';
 import { FormValidationService } from '../../services/form-validation.service';
+import { LoginService } from '../../services/login.service';
 
 @Component({
   selector: 'login',
@@ -11,6 +13,8 @@ import { FormValidationService } from '../../services/form-validation.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+
+  formUserData = FormUserData;
 
   userNameError$: Observable<string>;
   passwordError$: Observable<string>;
@@ -20,27 +24,39 @@ export class LoginComponent implements OnInit {
   constructor(private authGuardService: AuthGuardService, 
     private router: Router,
     private formValidationService: FormValidationService,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private loginService: LoginService) { }
 
   get userNameControl() : FormControl{
-    return this.loginForm.get('userName') as FormControl;
+    return this.loginForm.get(this.formUserData.userName) as FormControl;
   }
   get passwordControl() : FormControl{
-    return this.loginForm.get('password') as FormControl;
+    return this.loginForm.get(this.formUserData.password) as FormControl;
   } 
 
   ngOnInit(): void {
-    this.loginForm = new FormGroup({});
-    this.loginForm.addControl('userName', this.fb.control('', [Validators.required, Validators.minLength(4)]));
-    this.loginForm.addControl('password', this.fb.control('', [Validators.required, Validators.minLength(6)]));
+    this.loginForm = this.buildRegisterFormGroup()
+    this.initErrorMessageContainers()
+  }
 
+  private buildRegisterFormGroup() : FormGroup {
+    return this.fb.group({
+      [this.formUserData.userName]: this.fb.control('', [Validators.required, Validators.minLength(4)]),
+      [this.formUserData.password]: this.fb.control('', [Validators.required, Validators.minLength(6)]),
+    })
+  }
+
+  private initErrorMessageContainers(){
     this.userNameError$ = this.formValidationService.error$(this.userNameControl);
     this.passwordError$ = this.formValidationService.error$(this.passwordControl);
   }
 
   onSubmit(){
     console.log("Form submitted: ", this.loginForm); 
-    this.authGuardService.login();
-    this.router.navigate(['']);
+    
+      if(this.loginService.login(this.userNameControl.value, this.passwordControl.value)){
+          this.authGuardService.login();
+          this.router.navigate(['']);
+      }
   }
 }

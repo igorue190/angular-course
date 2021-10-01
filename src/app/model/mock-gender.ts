@@ -1,1 +1,0 @@
-export const Genders: string[] =["Male", "Female", "Other"]

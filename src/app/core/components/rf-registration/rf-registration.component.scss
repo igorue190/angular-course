@@ -42,9 +42,6 @@ input {
   .point:last-of-type {
     margin: 0 !important;
   } 
-.rout-container{
-  display:flex;
-}
 .log-link{
   padding: 10px 0 0 10px;
 }
@@ -53,4 +50,12 @@ input {
   border-radius: .25rem;
   margin: 20px 0 10px 0;
   padding: 10px;
+}
+.form-group{
+  margin-top: 1.5rem;
+}
+
+p{
+  margin-top: 1rem;
+  display: inline-block;
 }

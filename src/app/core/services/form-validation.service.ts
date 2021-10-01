@@ -25,7 +25,7 @@ export class FormValidationService {
     whitespaceAtTheEnd: () => 'Shared.Validation.WhitespaceAtTheEnd',
     multipleWhitespaces: () => 'Shared.Validation.MultipleWhitespaces',
     email: () => 'Email is not correct',
-    MustMatch: () => 'The value does not match',
+    mustMatch: () => 'The value does not match',
     pattern: () => 'The value does not match' 
   };
 

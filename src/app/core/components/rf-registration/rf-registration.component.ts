@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Genders } from 'src/app/model/mock-gender';
 import { MustMatch } from 'src/app/helpers/must-match.validator';
 import { RegistrationServiceService } from '../../services/registration-service.service';
 import { User } from 'src/app/model/User';
@@ -8,6 +7,7 @@ import { UUID } from 'angular2-uuid';
 import { countryList } from 'src/app/model/countryList';
 import { Observable } from 'rxjs';
 import { FormValidationService } from '../../services/form-validation.service';
+import { FormGroupName, FormUserData, Genders } from 'src/app/model/mock-users';
 
 @Component({
   selector: 'rf-registration',
@@ -17,15 +17,15 @@ import { FormValidationService } from '../../services/form-validation.service';
 export class RfRegistrationComponent implements OnInit {
 
   registerForm: FormGroup;
-  addressGroup: FormGroup;
-  genders = [Genders[0], Genders[1], Genders[2]];
+  genders = Genders;
   countries: object[] = countryList;
   passwordIsValid = false;
   users: User[] = [];
   user: User;
-  address: FormArray;
-  states: string[] = countryList.find(x => x.country === "Afghanistan").states;
+  states: string[] = countryList[0]['states'];
   clicked = false;
+  formUserData = FormUserData;
+  formGroupName = FormGroupName;
 
   userNameError$: Observable<string>;
   emailError$: Observable<string>;
@@ -36,79 +36,105 @@ export class RfRegistrationComponent implements OnInit {
   zipcodeError$: Observable<string>;
 
   get userNameControl() : FormControl{
-    return this.registerForm.get('userName') as FormControl;
+    return this.registerForm.get(this.formUserData.userName) as FormControl;
   }
   get emailControl() : FormControl{
-    return this.registerForm.get('email') as FormControl;
+    return this.registerForm.get(this.formUserData.email) as FormControl;
   }
   get firstNameControl() : FormControl{
-    return this.registerForm.get('firstName') as FormControl;
+    return this.registerForm.get(this.formUserData.firstName) as FormControl;
   }
   get lastNameControl() : FormControl{
-    return this.registerForm.get('lastName') as FormControl;
+    return this.registerForm.get(this.formUserData.lastName) as FormControl;
   }
   get passwordControl() : FormControl{
-    return this.registerForm.get('passwordGroup').get('password') as FormControl;
+    return this.registerForm.get(this.formGroupName.passwordGroup).get(this.formUserData.password) as FormControl;
   }
   get confirmPasswordControl() : FormControl{
-    return this.registerForm.get('passwordGroup').get('confirmPassword') as FormControl;
+    return this.registerForm.get(this.formGroupName.passwordGroup).get(this.formUserData.confirmPassword) as FormControl;
+  }
+  get addressFromArray() : FormArray{
+    return this.registerForm.get(this.formGroupName.address) as FormArray;
   }
   get zipcodeControl() : FormControl{
-    return this.addressGroup.get('zipcode') as FormControl;
+    return this.addressFromArray.controls[0].get(this.formUserData.zipCode) as FormControl;
   }
 
   constructor(private registrationService: RegistrationServiceService,
-    private formValidationService: FormValidationService){
- 
+    private formValidationService: FormValidationService,
+    private fb: FormBuilder){
   }
+
     ngOnInit(): void {
-      this.addressGroup = new FormGroup({
-        country: new FormControl(this.countries[0]['country']),
-        city: new FormControl(this.states[0]),
-        zipcode: new FormControl('', [Validators.required, Validators.pattern(/^\d{5}(?:[-\s]\d{4})?$/)])
-      });
-      
-      this.registerForm = new FormGroup({
-        userName: new FormControl('', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
-        email: new FormControl('', [Validators.email, Validators.required]),
-        gender: new FormControl(this.genders[0]),
-        firstName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
-        lastName: new FormControl('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
-        passwordGroup: new FormGroup({
-          password: new FormControl(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10)]),
-          confirmPassword: new FormControl(null, Validators.required)}, {validators: MustMatch('password','confirmPassword')}),
-        address: new FormArray([
-          this.addressGroup
-          ])
-        })       
-
-      this.address = this.registerForm.get('address') as FormArray; 
-
-      this.userNameError$ = this.formValidationService.error$(this.userNameControl);
-      this.emailError$ = this.formValidationService.error$(this.emailControl);
-      this.firstNameError$ = this.formValidationService.error$(this.firstNameControl);
-      this.lastNameError$ = this.formValidationService.error$(this.lastNameControl);
-      this.passwordError$ = this.formValidationService.error$(this.passwordControl);
-      this.confirmPasswordError$ = this.formValidationService.error$(this.confirmPasswordControl);
-      this.zipcodeError$  = this.formValidationService.error$(this.zipcodeControl);
+      this.registerForm = this.buildRegisterFormGroup();        
+      this.initErrorMessageContainers();
     }
+
+  private buildRegisterFormGroup() : FormGroup {
+    return this.fb.group({
+      [this.formUserData.userName]: this.fb.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
+      [this.formUserData.email]: this.fb.control('', [Validators.email, Validators.required]),
+      [this.formUserData.gender]: this.fb.control(this.genders[0]),
+      [this.formUserData.firstName]: this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
+      [this.formUserData.lastName]: this.fb.control('', [Validators.required, Validators.minLength(2), Validators.maxLength(20)]),
+      [this.formGroupName.passwordGroup]: this.fb.group({
+        [this.formUserData.password]: this.fb.control(null, [Validators.required, Validators.minLength(6), Validators.maxLength(10)]),
+        [this.formUserData.confirmPassword]: this.fb.control(null, Validators.required)
+      }, {validators: MustMatch(this.formUserData.password,this.formUserData.confirmPassword)}),
+      [this.formGroupName.address]: this.fb.array([
+          this.buildAddressFormGroup()
+      ])
+    })
+  } 
+
+  private initErrorMessageContainers(){
+    this.userNameError$ = this.formValidationService.error$(this.userNameControl);
+    this.emailError$ = this.formValidationService.error$(this.emailControl);
+    this.firstNameError$ = this.formValidationService.error$(this.firstNameControl);
+    this.lastNameError$ = this.formValidationService.error$(this.lastNameControl);
+    this.passwordError$ = this.formValidationService.error$(this.passwordControl);
+    this.confirmPasswordError$ = this.formValidationService.error$(this.confirmPasswordControl);
+    this.zipcodeError$  = this.formValidationService.error$(this.zipcodeControl);
+  }
+
+  private buildAddressFormGroup() : FormGroup {
+      return this.fb.group({
+        [this.formUserData.country]: this.fb.control(this.countries[0][this.formUserData.country]),
+        [this.formUserData.city]: this.fb.control(this.states[0]),
+        [this.formUserData.zipCode]: this.fb.control('', [Validators.required, Validators.pattern(/^\d{5}(?:[-\s]\d{4})?$/)]),
+    });
+  }
 
   submit(){
     console.log("Form submitted: ", this.registerForm);   
+
     var formModel = this.registerForm.value; 
        this.user = { Id: UUID.UUID(),
-        UserName: formModel['userName'], 
-        Email: formModel['email'], 
-        Gender: formModel['gender'],
-        FirstName: formModel['firstName'],
-        LastName: formModel['lastName'],
-        Password: formModel.passwordGroup['password'],
+        UserName: formModel[this.formUserData.userName], 
+        Email: formModel[this.formUserData.email], 
+        Gender: formModel[this.formUserData.gender],
+        FirstName: formModel[this.formUserData.firstName],
+        LastName: formModel[this.formUserData.lastName],
+        Password: formModel.passwordGroup[this.formUserData.password],
         Country: formModel.address[0].country,
         City: formModel.address[0].city,
-        ZipCode: formModel.address[0].zipcode};
-        this.registrationService.addUser(this.user);
-      this.registerForm.reset();  
-      this.getUsers();
+        ZipCode: formModel.address[0].zipcode
+    };
+
+    if(formModel.address[1] !== undefined){
+        this.user.ShipingCountry = formModel.address[1].country;
+        this.user.ShipingCity = formModel.address[1].city;
+        this.user.ShipingZipCode = formModel.address[1].zipcode;
+    }
+
+    this.registrationService.addUser(this.user);
+
+    if(this.addressFromArray.removeAt(1) !== undefined){
+      this.hideShippingAddress();
+    }
+
+    this.registerForm.reset();  
+    this.getUsers();
   }
 
   getUsers(){
@@ -129,10 +155,10 @@ export class RfRegistrationComponent implements OnInit {
   }
 
   addAddress(){
-    this.address.push(this.addressGroup);
+    this.addressFromArray.push(this.buildAddressFormGroup());
   }
 
   hideShippingAddress(){
-    this.address.removeAt(1);
+    this.addressFromArray.removeAt(1);
   }
 }

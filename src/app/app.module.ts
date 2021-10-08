@@ -15,6 +15,7 @@ import { MustMatchDirective } from './shared/directives/must-match.directive';
 import { LoginComponent } from './core/components/login/login.component';
 import { LayoutModule } from './shared/common/layout/layout.module';
 import { AuthGuardGuard } from './app-routing/auth-guard.guard';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { AuthGuardGuard } from './app-routing/auth-guard.guard';
     ReactiveFormsModule,
     NgbModule,
     AppRoutingModule,
-    LayoutModule
+    LayoutModule,
+    HttpClientModule
   ],
   providers: [AuthGuardGuard],
   bootstrap: [AppComponent]

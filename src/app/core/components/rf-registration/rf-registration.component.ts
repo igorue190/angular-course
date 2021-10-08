@@ -81,7 +81,7 @@ export class RfRegistrationComponent implements OnInit {
       this.initErrorMessageContainers();
     }
 
-  private buildRegisterFormGroup() : FormGroup {
+  public buildRegisterFormGroup() : FormGroup {
     return this.fb.group({
       [this.formUserData.userName]: this.fb.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(10)]),
       [this.formUserData.email]: this.fb.control('', [Validators.email, Validators.required]),
@@ -117,8 +117,18 @@ export class RfRegistrationComponent implements OnInit {
   }
 
   submit(){
-    console.log("Form submitted: ", this.registerForm);   
+    console.log("Form submitted: ", this.registerForm);       
+    this.createUser()
+    if(this.addressFromArray.removeAt(1) !== undefined){
+      this.hideShippingAddress();
+    }
 
+    this.registerForm.reset();  
+    this.setListDataAfterResetForm();
+    this.getUsers();
+  }
+
+  public createUser() {
     var formModel = this.registerForm.value; 
        this.user = { Id: UUID.UUID(),
         UserName: formModel[this.formUserData.userName], 
@@ -139,14 +149,6 @@ export class RfRegistrationComponent implements OnInit {
     }
 
     this.registrationService.addUser(this.user);
-
-    if(this.addressFromArray.removeAt(1) !== undefined){
-      this.hideShippingAddress();
-    }
-
-    this.registerForm.reset();  
-    this.setListDataAfterResetForm();
-    this.getUsers();
   }
 
   private setListDataAfterResetForm(){

@@ -8,6 +8,8 @@ import { countryList } from 'src/app/model/countryList';
 import { Observable } from 'rxjs';
 import { FormValidationService } from '../../services/form-validation.service';
 import { FormGroupName, FormUserData, Genders } from 'src/app/model/mock-users';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { ErrorModalRegistrationComponent } from 'src/app/shared/common/layout/components/error-modal-registration/error-modal-registration.component';
 
 @Component({
   selector: 'rf-registration',
@@ -73,7 +75,8 @@ export class RfRegistrationComponent implements OnInit {
 
   constructor(private registrationService: RegistrationServiceService,
     private formValidationService: FormValidationService,
-    private fb: FormBuilder){
+    private fb: FormBuilder,
+    private dialog: MatDialog){
   }
 
     ngOnInit(): void {
@@ -117,18 +120,31 @@ export class RfRegistrationComponent implements OnInit {
   }
 
   submit(){
-    console.log("Form submitted: ", this.registerForm);       
-    this.createUser()
-    if(this.addressFromArray.removeAt(1) !== undefined){
-      this.hideShippingAddress();
+    if(this.registerForm.valid){
+      this.userCreationProcess()
+    } else {
+      this.formValidationService.validateForm(this.registerForm)
     }
-
-    this.registerForm.reset();  
-    this.setListDataAfterResetForm();
-    this.getUsers();
   }
 
-  public createUser() {
+  private userCreationProcess(){
+    console.log("Form submitted: ", this.registerForm);       
+    if(this.createUser()){
+      if(this.addressFromArray.removeAt(1) !== undefined){
+        this.hideShippingAddress();
+      }
+  
+      this.registerForm.reset();  
+      this.setListDataAfterResetForm();
+      this.getUsers();
+    } else {
+      this.registerForm.reset();  
+      this.setListDataAfterResetForm();
+      this.dialog.open(ErrorModalRegistrationComponent);
+    }
+  }
+
+  public createUser() : boolean {
     var formModel = this.registerForm.value; 
        this.user = { Id: UUID.UUID(),
         UserName: formModel[this.formUserData.userName], 
@@ -148,7 +164,7 @@ export class RfRegistrationComponent implements OnInit {
         this.user.ShipingZipCode = formModel.address[1].zipcode;
     }
 
-    this.registrationService.addUser(this.user);
+    return this.registrationService.addUser(this.user);
   }
 
   private setListDataAfterResetForm(){
@@ -180,5 +196,14 @@ export class RfRegistrationComponent implements OnInit {
 
   hideShippingAddress(){
     this.addressFromArray.removeAt(1);
+  }
+
+  openModal(){
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.disableClose = true;
+    dialogConfig.id = "modal-component";
+    dialogConfig.height = "350px";
+    dialogConfig.width = "600px";
+    const modalDialog = this.dialog.open(ErrorModalRegistrationComponent, dialogConfig);
   }
 }

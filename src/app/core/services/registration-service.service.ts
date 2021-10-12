@@ -15,8 +15,12 @@ export class RegistrationServiceService {
     return Users;
   }
 
-  addUser(user: User) : Observable<any>{
-    Users.push(user);
-    return this.http.post('', user);
+  addUser(user: User) {//: Observable<any>{
+    if(user.UserName !== '1111'){
+      Users.push(user);
+      return true;//this.http.post('', user);
+    } else {
+      return false;
+    }
   }
 }

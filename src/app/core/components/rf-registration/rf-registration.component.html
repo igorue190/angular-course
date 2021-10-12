@@ -2,17 +2,18 @@
     <h3 class="card-header">Registration:</h3>
     <div class="card-body">
         <form [formGroup]="registerForm" 
-            (ngSubmit)="registerForm.valid && submit(); clicked=false;" 
-            novalidate>
+            (ngSubmit)="submit(); clicked=false;" 
+            novalidate
+            focus>
             <div class="form-group">
                 <label>UserName</label>
                 <input class="form-control" 
                     type="text" 
                     placeholder="UserName" 
-                    [formControlName]="'userName'" 
+                    [formControlName]="'userName'"                    
                     [class.is-invalid]="userNameError$ | async"/>
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="userNameError$ | async"></span>
+                    <span [textContent]="userNameError$ | async" role="alert" aria-describedby="userNameError$ | async"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -23,7 +24,7 @@
                     [formControlName]="'email'"
                     [class.is-invalid]="emailError$ | async"/>
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="emailError$ | async"></span>
+                    <span [textContent]="emailError$ | async" role="alert" aria-describedby="emailError$ | async"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -43,7 +44,7 @@
                     [formControlName]="'firstName'"
                     [class.is-invalid]="firstNameError$ | async"/>
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="firstNameError$ | async"></span>
+                    <span [textContent]="firstNameError$ | async" role="alert" aria-describedby="firstNameError$ | async"></span>
                 </div>
             </div>
             <div class="form-group">
@@ -54,7 +55,7 @@
                     [formControlName]="'lastName'"
                     [class.is-invalid]="lastNameError$ | async"/>
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="lastNameError$ | async"></span>
+                    <span [textContent]="lastNameError$ | async" role="alert" aria-describedby="lastNameError$ | async"></span>
                 </div>               
             </div>
         <div formGroupName="passwordGroup">
@@ -67,7 +68,7 @@
                     autocomplete="off"
                     [class.is-invalid]="passwordError$ | async"/>
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="passwordError$ | async"></span>
+                    <span [textContent]="passwordError$ | async" role="alert" aria-describedby="passwordError$ | async"></span>
                 </div>               
                 <strenth-password [passwordToCheck]="registerForm.controls['passwordGroup'].get('password').value"
                             (passwordStrength)="passwordValid($event)"></strenth-password>
@@ -81,7 +82,7 @@
                     autocomplete="off"
                     [class.is-invalid]="confirmPasswordError$ | async"/>
                 <div class="invalid-feedback position-absolute">
-                    <span [textContent]="confirmPasswordError$ | async"></span>
+                    <span [textContent]="confirmPasswordError$ | async" role="alert" aria-describedby="confirmPasswordError$ | async"></span>
                 </div>  
             </div>
         </div>
@@ -122,7 +123,7 @@
                             formControlName="zipcode"  
                             [class.is-invalid]="zipcodeError$ | async"/>  
                         <div class="invalid-feedback position-absolute">
-                            <span [textContent]="zipcodeError$ | async"></span>
+                            <span [textContent]="zipcodeError$ | async" role="alert" aria-describedby="zipcodeError$ | async"></span>
                         </div>  
                     </div>    
                 </ng-container>

@@ -1,4 +1,5 @@
 import { FormBuilder} from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { EMPTY } from 'rxjs';
 import { FormUserData, FormGroupName } from 'src/app/model/mock-users';
 import { FormValidationService } from '../../services/form-validation.service';
@@ -88,12 +89,12 @@ describe('RfRegistrationComponent', () => {
   })
 
   it('should call addUser method', () => {
-    const spy = spyOn(regService, 'addUser').and.returnValue(EMPTY)
+    const spy = spyOn(regService, 'addUser').and.returnValue(true)
     component.submit()
     expect(spy).toHaveBeenCalled()
   })
   it('should call agetUser method', () => {
-    const spy1 = spyOn(regService, 'addUser').and.returnValue(EMPTY)
+    const spy1 = spyOn(regService, 'addUser').and.returnValue(true)
     const spy2 = spyOn(regService, 'getUser').and.returnValue(component.users)
     component.submit()
     expect(spy1).toHaveBeenCalled()

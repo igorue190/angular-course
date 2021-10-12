@@ -16,6 +16,8 @@ import { LoginComponent } from './core/components/login/login.component';
 import { LayoutModule } from './shared/common/layout/layout.module';
 import { AuthGuardGuard } from './app-routing/auth-guard.guard';
 import { HttpClientModule } from '@angular/common/http';
+import { FocusDirective } from './shared/directives/focus.directive';
+import { MatDialogModule } from '@angular/material/dialog'
 
 @NgModule({
   declarations: [
@@ -25,7 +27,8 @@ import { HttpClientModule } from '@angular/common/http';
     TdRegistrationComponent,
     HomeComponent,
     MustMatchDirective,
-    LoginComponent
+    LoginComponent,
+    FocusDirective
   ],
   imports: [
     BrowserModule,
@@ -35,7 +38,8 @@ import { HttpClientModule } from '@angular/common/http';
     NgbModule,
     AppRoutingModule,
     LayoutModule,
-    HttpClientModule
+    HttpClientModule,
+    MatDialogModule
   ],
   providers: [AuthGuardGuard],
   bootstrap: [AppComponent]

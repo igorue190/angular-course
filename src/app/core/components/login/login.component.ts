@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Observable, timer } from 'rxjs';
-import { AuthGuardService } from 'src/app/app-routing/auth-guard.service';
+import { Observable } from 'rxjs';
 import { FormUserData } from 'src/app/model/mock-users';
+import { userAuth } from 'src/app/model/userAuth';
 import { FormValidationService } from '../../services/form-validation.service';
 import { LoginService } from '../../services/login.service';
 
@@ -16,19 +16,18 @@ export class LoginComponent implements OnInit {
 
   formUserData = FormUserData;
 
-  userNameError$: Observable<string>;
+  emailError$: Observable<string>;
   passwordError$: Observable<string>;
 
   loginForm: FormGroup;
 
-  constructor(private authGuardService: AuthGuardService, 
-    private router: Router,
+  constructor(private router: Router,
     private formValidationService: FormValidationService,
     private fb: FormBuilder,
     private loginService: LoginService) { }
 
-  get userNameControl() : FormControl{
-    return this.loginForm.get(this.formUserData.userName) as FormControl;
+  get emailControl() : FormControl{
+    return this.loginForm.get(this.formUserData.email) as FormControl;
   }
   get passwordControl() : FormControl{
     return this.loginForm.get(this.formUserData.password) as FormControl;
@@ -41,22 +40,25 @@ export class LoginComponent implements OnInit {
 
   private buildRegisterFormGroup() : FormGroup {
     return this.fb.group({
-      [this.formUserData.userName]: this.fb.control('', [Validators.required, Validators.minLength(4)]),
+      [this.formUserData.email]: this.fb.control('', [Validators.email, Validators.required]),
       [this.formUserData.password]: this.fb.control('', [Validators.required, Validators.minLength(6)]),
     })
   }
 
   private initErrorMessageContainers(){
-    this.userNameError$ = this.formValidationService.error$(this.userNameControl);
+    this.emailError$ = this.formValidationService.error$(this.emailControl);
     this.passwordError$ = this.formValidationService.error$(this.passwordControl);
   }
 
   onSubmit(){
     console.log("Form submitted: ", this.loginForm); 
-    
-      if(this.loginService.login(this.userNameControl.value, this.passwordControl.value)){
-          this.authGuardService.login();
+    const userAuth: userAuth = {
+      email: this.emailControl.value,
+      password: this.passwordControl.value,
+      returnSecureToken: true
+    }
+      this.loginService.login(userAuth).subscribe(() => {
           this.router.navigate(['']);
-      }
+      });
   }
 }

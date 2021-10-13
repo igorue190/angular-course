@@ -204,6 +204,6 @@ export class RfRegistrationComponent implements OnInit {
     dialogConfig.id = "modal-component";
     dialogConfig.height = "350px";
     dialogConfig.width = "600px";
-    const modalDialog = this.dialog.open(ErrorModalRegistrationComponent, dialogConfig);
+    this.dialog.open(ErrorModalRegistrationComponent, dialogConfig);
   }
 }

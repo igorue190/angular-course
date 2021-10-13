@@ -1,6 +1,5 @@
 import { FormBuilder} from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { EMPTY } from 'rxjs';
+import { of } from 'rxjs';
 import { FormUserData, FormGroupName } from 'src/app/model/mock-users';
 import { FormValidationService } from '../../services/form-validation.service';
 import { RegistrationServiceService } from '../../services/registration-service.service';
@@ -11,12 +10,15 @@ describe('RfRegistrationComponent', () => {
   
   let component: RfRegistrationComponent
   let regService : RegistrationServiceService
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of({}), close: null });
+  dialogRefSpyObj.componentInstance = { body: '' };
 
   beforeEach(() => {
     regService = new RegistrationServiceService(null)
     component = new RfRegistrationComponent( regService,
                                             new FormValidationService(),
-                                            new FormBuilder())
+                                            new FormBuilder(),
+                                            dialogRefSpyObj)
     component.registerForm = component.buildRegisterFormGroup()
   })
 

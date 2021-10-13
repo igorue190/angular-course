@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthGuardService } from 'src/app/app-routing/auth-guard.service';
+import { LoginService } from 'src/app/core/services/login.service';
 
 @Component({
   selector: 'logout',
@@ -9,14 +9,15 @@ import { AuthGuardService } from 'src/app/app-routing/auth-guard.service';
 })
 export class LogoutComponent implements OnInit {
 
-  constructor(private authGuardService: AuthGuardService, 
+  constructor(
+    private loginService: LoginService,
     private router: Router) { }
 
   ngOnInit(): void {
   }
 
     logout(){
-      this.authGuardService.logout();
+      this.loginService.logout();
       this.router.navigate(['/rfreg']);
     }
 }

@@ -11,7 +11,6 @@ import { AppGuardModule } from './app-routing/app-guard/app-guard.module';
 
 import { AppComponent } from './app.component';
 import { RfRegistrationComponent } from './core/components/rf-registration/rf-registration.component';
-import { StrenthPasswordComponent } from './shared/strenth-password/strenth-password.component';
 import { TdRegistrationComponent } from './core/components/td-registration/td-registration.component';
 import { HomeComponent } from './core/components/home/home.component';
 import { MustMatchDirective } from './shared/directives/must-match.directive';
@@ -23,7 +22,6 @@ import { FocusDirective } from './shared/directives/focus.directive';
   declarations: [
     AppComponent,
     RfRegistrationComponent,
-    StrenthPasswordComponent,
     TdRegistrationComponent,
     HomeComponent,
     MustMatchDirective,

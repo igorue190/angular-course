@@ -1,11 +1,17 @@
-.container {
-    background-image: url('/assets/img/ang.jpg') !important;
-    background-size: cover;
-    background-position: center center;
-    height: 800px;
-  }
-  .title{
-      color: black;
-      padding-left: 40%;
-      padding-top: 100px;
-  }
+div.gallery {
+    margin: 10px;
+    border: none;
+    float: left;
+    width: 200px;
+    height: 300px;
+}
+div.gallery img {
+    width: 100%;
+    height: auto;
+}
+div.desc {
+    padding: 5px;
+    font-weight: 300;
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}

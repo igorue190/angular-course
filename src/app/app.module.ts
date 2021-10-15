@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { MatDialogModule } from '@angular/material/dialog';
+import { AppGuardModule } from './app-routing/app-guard/app-guard.module'; 
 
 import { AppComponent } from './app.component';
 import { RfRegistrationComponent } from './core/components/rf-registration/rf-registration.component';
@@ -15,7 +16,6 @@ import { TdRegistrationComponent } from './core/components/td-registration/td-re
 import { HomeComponent } from './core/components/home/home.component';
 import { MustMatchDirective } from './shared/directives/must-match.directive';
 import { LoginComponent } from './core/components/login/login.component';
-import { AuthGuardGuard } from './app-routing/auth-guard.guard';
 import { FocusDirective } from './shared/directives/focus.directive';
 
 
@@ -39,9 +39,10 @@ import { FocusDirective } from './shared/directives/focus.directive';
     AppRoutingModule,
     LayoutModule,
     HttpClientModule,
-    MatDialogModule
+    MatDialogModule,
+    AppGuardModule
   ],
-  providers: [AuthGuardGuard],
+  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

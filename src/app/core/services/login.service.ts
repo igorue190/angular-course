@@ -19,7 +19,12 @@ export class LoginService {
       this.logout();
       return null;
     } 
-    return Cookie.get('fb-token');
+    const token = Cookie.get('fb-token');
+    if(token === ''){
+      return null;
+    } else {
+      return token;
+    }
   }
 
   login(userAuth: userAuth) : Observable<any>{

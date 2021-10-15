@@ -28,7 +28,8 @@
             </div>
             <div class="rout-container">
                 <button type="submit" 
-                    class="btn btn-primary">Login</button>
+                    class="btn btn-primary"
+                    [disabled]="submitted">Login</button>
                 <p class="reg-link" 
                     routerLinkActive="active">
                     <a [routerLink]="['/rfreg']">Register</a>

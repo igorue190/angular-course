@@ -4,21 +4,27 @@ import { HomeComponent } from '../core/components/home/home.component';
 import { LoginComponent } from '../core/components/login/login.component';
 import { RfRegistrationComponent } from '../core/components/rf-registration/rf-registration.component';
 import { TdRegistrationComponent } from '../core/components/td-registration/td-registration.component';
-import { AuthGuardGuard } from './auth-guard.guard';
+import { AppGuardModule } from './app-guard/app-guard.module';
+import { HomeGuard } from './app-guard/home.guard';
+import { LoginGuard } from './app-guard/login.guard';
 
 const appRoutes: Routes=[
-  {path: '', component: HomeComponent, canActivate: [AuthGuardGuard]},
+  {path: '', component: HomeComponent, canActivate: [HomeGuard]},
   {path: 'rfreg', component: RfRegistrationComponent},
   {path: 'tdreg', component: TdRegistrationComponent},
-  {path: 'login', component: LoginComponent}
+  {path: 'login', component: LoginComponent, canActivate: [LoginGuard]}
 ];
 
 @NgModule({
   declarations: [],
   imports: [
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    AppGuardModule
   ],
   exports:[RouterModule],
-  providers:[AuthGuardGuard]
+  providers:[
+    HomeGuard,
+    LoginGuard
+  ]
 })
 export class AppRoutingModule { }

@@ -15,6 +15,7 @@ import { LoginService } from '../../services/login.service';
 export class LoginComponent implements OnInit {
 
   formUserData = FormUserData;
+  submitted = false;
 
   emailError$: Observable<string>;
   passwordError$: Observable<string>;
@@ -51,6 +52,11 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit(){
+    if(this.loginForm.invalid){
+      return
+    }
+
+    this.submitted = true;
     console.log("Form submitted: ", this.loginForm); 
     const userAuth: userAuth = {
       email: this.emailControl.value,
@@ -58,7 +64,8 @@ export class LoginComponent implements OnInit {
       returnSecureToken: true
     }
       this.loginService.login(userAuth).subscribe(() => {
-          this.router.navigate(['']);
+        this.submitted = false;
+        this.router.navigate(['']);
       });
   }
 }

@@ -1,7 +1,11 @@
-<section class="hero">
-    <div class="hero-body">
-    <div class="container">
-      <h1 class="title">Home Page!</h1>
-    </div>
-    </div>
-</section>
+<div style="text-align:center">
+  <h1>
+    Welcome to our Image Gallery!
+  </h1>
+<!--The code to display images -->
+<div class="gallery" *ngFor="let image of data">
+  <a target="_blank" [href]="image.url">
+    <img [src]="image.thumbnailUrl" width="300" height="200">
+  </a>
+  <div class="desc">{{image.title}}</div>
+</div>

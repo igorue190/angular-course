@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { FormUserData } from 'src/app/model/mock-users';
 import { userAuth } from 'src/app/model/userAuth';
+import { ForgotPasswordModalComponent } from 'src/app/shared/common/layout/components/forgot-password-modal/forgot-password-modal.component';
 import { FormValidationService } from '../../services/form-validation.service';
 import { LoginService } from '../../services/login.service';
 
@@ -25,7 +27,8 @@ export class LoginComponent implements OnInit {
   constructor(private router: Router,
     private formValidationService: FormValidationService,
     private fb: FormBuilder,
-    private loginService: LoginService) { }
+    private loginService: LoginService,
+    private dialog: MatDialog) { }
 
   get emailControl() : FormControl{
     return this.loginForm.get(this.formUserData.email) as FormControl;
@@ -49,6 +52,10 @@ export class LoginComponent implements OnInit {
   private initErrorMessageContainers(){
     this.emailError$ = this.formValidationService.error$(this.emailControl);
     this.passwordError$ = this.formValidationService.error$(this.passwordControl);
+  }
+
+  forgotPassword(){
+    this.dialog.open(ForgotPasswordModalComponent);
   }
 
   onSubmit(){
